@@ -27,28 +27,28 @@
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionDatei_laden"/>
+    <addaction name="actionOpen_File"/>
     <addaction name="separator"/>
-    <addaction name="actionBeenden"/>
+    <addaction name="actionExit"/>
    </widget>
    <addaction name="menuFile"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <action name="actionDatei_laden">
+  <action name="actionOpen_File">
    <property name="text">
-    <string>Datei laden</string>
+    <string>Open File ...</string>
    </property>
   </action>
-  <action name="actionBeenden">
+  <action name="actionExit">
    <property name="text">
-    <string>Beenden</string>
+    <string>Exit</string>
    </property>
   </action>
  </widget>
  <resources/>
  <connections>
   <connection>
-   <sender>actionBeenden</sender>
+   <sender>actionExit</sender>
    <signal>activated()</signal>
    <receiver>MainWindow</receiver>
    <slot>close()</slot>
