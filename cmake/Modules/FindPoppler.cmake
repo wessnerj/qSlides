@@ -1,3 +1,5 @@
+# Taken from: https://code.google.com/p/texworks/source/browse/trunk/CMake/Modules/FindPoppler.cmake?r=1000
+#
 # - Try to find Poppler and Poppler-Qt4
 # Once done this will define
 #
