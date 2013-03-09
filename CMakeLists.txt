@@ -24,11 +24,11 @@ INCLUDE_DIRECTORIES(${POPPLER_QT4_INCLUDE_DIR})
 SET(project_LINK_LIBS ${project_LINK_LIBS} ${POPPLER_QT4_LIBRARIES})
 
 # Add source files
-SET(project_SOURCES src/main.cpp src/MainWindow.cpp src/ControlWindow.cpp)
+SET(project_SOURCES src/main.cpp src/StartWindow.cpp src/ControlWindow.cpp)
 # Add header files
-SET(project_HEADERS src/MainWindow.h src/ControlWindow.h)
+SET(project_HEADERS src/StartWindow.h src/ControlWindow.h)
 # Add Qt UI files
-SET(project_FORMS forms/mainWindow.ui forms/controlWindow.ui)
+SET(project_FORMS forms/startWindow.ui forms/controlWindow.ui)
 
 # Generate qt mocs
 QT4_WRAP_CPP(project_HEADERS_MOC ${project_HEADERS})

@@ -16,19 +16,50 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QtGui/QApplication>
-#include "StartWindow.h"
-#include "ControlWindow.h"
+#ifndef MAINWINDOW_H_
+#define MAINWINDOW_H_
 
-using namespace qSlides;
+#include <vector>
+using std::vector;
+
+#include <QMainWindow>
+#include <QString>
+
+namespace Ui {
+class StartWindow;
+}
+
+namespace qSlides {
 
 /**
- * Entry point for the program.
+ * The StartWindow is used to setup the presentation.
  */
-int main(int argc, char *argv[]) {
-	QApplication a(argc, argv);
-	StartWindow w;
-	w.show();
+class StartWindow: public QMainWindow {
+Q_OBJECT
 
-	return a.exec();
-}
+public:
+	explicit StartWindow(QWidget *parent = 0);
+	~StartWindow();
+
+protected:
+	/**
+	 * Refresh the display select boxes with currently available displays
+	 */
+	void updateDisplayNames();
+
+private slots:
+	void on_actionOpen_File_triggered();
+
+private:
+	/**
+	 * Pointer to the Qt-generated UI
+	 */
+	Ui::StartWindow *m_pUi;
+	/**
+	 * Holds the display names of available displays
+	 */
+	vector<QString> m_displayNames;
+};
+
+} /* namespace qSlides */
+#endif /* MAINWINDOW_H_ */
