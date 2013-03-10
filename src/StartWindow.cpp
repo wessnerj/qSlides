@@ -19,25 +19,29 @@
 #include "StartWindow.h"
 #include "ui_startWindow.h"
 
-#include <iostream>
-using std::cout;
-using std::endl;
+#include "IDocumentModel.h"
+
+#include "PdfModel.h"
+
+#include <memory>
+using std::make_shared;
+using std::static_pointer_cast;
 
 #include "poppler-qt4.h"
 
 #include <QFileDialog>
+#include <QFileInfo>
 #include <QDesktopWidget>
+#include <QtDebug>
 
 namespace qSlides {
 
 StartWindow::StartWindow(QWidget *parent) :
 		QMainWindow(parent), m_pUi(new Ui::StartWindow) {
 	m_pUi->setupUi(this);
-	QDesktopWidget *desktop = QApplication::desktop();
+	m_pDocumentModel = nullptr;
 
 	updateDisplayNames();
-
-	cout << "Window on display: " << desktop->screenNumber(this) << endl;
 }
 
 StartWindow::~StartWindow() {
@@ -50,8 +54,10 @@ void StartWindow::updateDisplayNames() {
 
 	m_displayNames.clear();
 
-	const int currentControlDisplay = m_pUi->selectControlDisplay->currentIndex();
-	const int currentPresentationDisplay = m_pUi->selectPresentationDisplay->currentIndex();
+	const int currentControlDisplay =
+			m_pUi->selectControlDisplay->currentIndex();
+	const int currentPresentationDisplay =
+			m_pUi->selectPresentationDisplay->currentIndex();
 
 	m_pUi->selectControlDisplay->clear();
 	m_pUi->selectPresentationDisplay->clear();
@@ -69,41 +75,42 @@ void StartWindow::updateDisplayNames() {
 		m_pUi->selectPresentationDisplay->addItem(displayString);
 	}
 
-	if (-1 < currentControlDisplay && currentControlDisplay < (int) m_displayNames.size())
+	if (-1 < currentControlDisplay
+			&& currentControlDisplay < (int) m_displayNames.size())
 		m_pUi->selectControlDisplay->setCurrentIndex(currentControlDisplay);
 	else
-		m_pUi->selectControlDisplay->setCurrentIndex(desktop->screenNumber(this));
+		m_pUi->selectControlDisplay->setCurrentIndex(
+				desktop->screenNumber(this));
 
-	if (-1 < currentPresentationDisplay && currentPresentationDisplay < (int) m_displayNames.size())
-		m_pUi->selectPresentationDisplay->setCurrentIndex(currentPresentationDisplay);
+	if (-1 < currentPresentationDisplay
+			&& currentPresentationDisplay < (int) m_displayNames.size())
+		m_pUi->selectPresentationDisplay->setCurrentIndex(
+				currentPresentationDisplay);
 	else
 		m_pUi->selectPresentationDisplay->setCurrentIndex(0);
 }
 
 void StartWindow::on_actionOpen_File_triggered() {
-	QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), "",
-			tr("PDF Documents (*.pdf)"));
-	std::cout << "Chosen file: " << fileName.toStdString() << std::endl;
+	// Open FileDialog to get absolute file path
+	const QString oAbsolutFileName = QFileDialog::getOpenFileName(this,
+			tr("Open File"), "", tr("PDF Documents (*.pdf)"));
 
-	Poppler::Document *doc = Poppler::Document::load(fileName);
+	// Nothing to do if user has aborted
+	if (oAbsolutFileName.isEmpty())
+		return;
 
-	if (nullptr == doc) {
-		std::cout << "Document not loaded" << std::endl;
-	} else {
-		std::cout << "Document loaded" << std::endl;
-		Poppler::Page *page = doc->page(0);
-
-		QSize size = page->pageSize();
-		QImage renderedPDF = page->renderToImage(physicalDpiX() * 2,
-				physicalDpiY() * 2, size.width(), size.height());
-		delete page;
-		page = nullptr;
-//
-//
-//		ui->pdfLabel->setPixmap(QPixmap::fromImage(renderedPDF));
+	// try to load the document
+	try {
+		m_pDocumentModel = static_pointer_cast<IDocumentModel>(make_shared<PdfModel>(oAbsolutFileName));
+	} catch (eDocumentLoadException e) {
+		// TODO: Show error message
+		m_pDocumentModel = nullptr;
+		m_pUi->labelFilename->setText(tr("no file selected"));
+		return;
 	}
 
-//	showFullScreen();
+	// show file name
+	m_pUi->labelFilename->setText(*(m_pDocumentModel->getFileName()));
 }
 
 } /* namespace qSlides */

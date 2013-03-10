@@ -16,58 +16,34 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MAINWINDOW_H_
-#define MAINWINDOW_H_
-
-#include "IDocumentModel.h"
-
-#include <vector>
-using std::vector;
+#ifndef IDOCUMENTMODEL_H_
+#define IDOCUMENTMODEL_H_
 
 #include <memory>
 using std::shared_ptr;
 
-#include <QMainWindow>
 #include <QString>
-
-namespace Ui {
-class StartWindow;
-}
+#include <QFileInfo>
 
 namespace qSlides {
 
-/**
- * The StartWindow is used to setup the presentation.
- */
-class StartWindow: public QMainWindow {
-Q_OBJECT
+class eDocumentLoadException { };
+class eDocumentEmptyFileNameException : public eDocumentLoadException { };
+class eDocumentFileNotExistsException : public eDocumentLoadException { };
+class eDocumentFileNotReadable : public eDocumentLoadException { };
 
+class IDocumentModel {
 public:
-	explicit StartWindow(QWidget *parent = 0);
-	~StartWindow();
+	IDocumentModel(const QString & filePath);
+	virtual ~IDocumentModel();
+
+	shared_ptr<QString> getAbsoluteFileName();
+	shared_ptr<QString> getFileName();
 
 protected:
-	/**
-	 * Refresh the display select boxes with currently available displays
-	 */
-	void updateDisplayNames();
-
-private slots:
-	void on_actionOpen_File_triggered();
-
-private:
-	/**
-	 * Pointer to the Qt-generated UI
-	 */
-	Ui::StartWindow *m_pUi;
-
-	/**
-	 * Holds the display names of available displays
-	 */
-	vector<QString> m_displayNames;
-
-	shared_ptr<IDocumentModel> m_pDocumentModel;
+	shared_ptr<QString> m_pStrAbsolutFilePath;
+	shared_ptr<QString> m_pStrFileName;
 };
 
 } /* namespace qSlides */
-#endif /* MAINWINDOW_H_ */
+#endif /* IDOCUMENTMODEL_H_ */

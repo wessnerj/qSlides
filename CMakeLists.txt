@@ -24,9 +24,9 @@ INCLUDE_DIRECTORIES(${POPPLER_QT4_INCLUDE_DIR})
 SET(project_LINK_LIBS ${project_LINK_LIBS} ${POPPLER_QT4_LIBRARIES})
 
 # Add source files
-SET(project_SOURCES src/main.cpp src/StartWindow.cpp src/ControlWindow.cpp)
+SET(project_SOURCES src/main.cpp src/StartWindow.cpp src/ControlWindow.cpp src/IDocumentModel.cpp src/PdfModel.cpp)
 # Add header files
-SET(project_HEADERS src/StartWindow.h src/ControlWindow.h)
+SET(project_HEADERS src/StartWindow.h src/ControlWindow.h src/IDocumentModel.h src/PdfModel.h)
 # Add Qt UI files
 SET(project_FORMS forms/startWindow.ui forms/controlWindow.ui)
 

@@ -16,58 +16,46 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MAINWINDOW_H_
-#define MAINWINDOW_H_
-
 #include "IDocumentModel.h"
 
-#include <vector>
-using std::vector;
-
 #include <memory>
-using std::shared_ptr;
+using std::make_shared;
 
-#include <QMainWindow>
+#include <stdexcept>
+using std::runtime_error;
+
 #include <QString>
-
-namespace Ui {
-class StartWindow;
-}
+#include <QFileInfo>
 
 namespace qSlides {
 
-/**
- * The StartWindow is used to setup the presentation.
- */
-class StartWindow: public QMainWindow {
-Q_OBJECT
+IDocumentModel::IDocumentModel(const QString & filePath) {
+	m_pStrAbsolutFilePath = make_shared<QString>(filePath);
 
-public:
-	explicit StartWindow(QWidget *parent = 0);
-	~StartWindow();
+	if (*m_pStrAbsolutFilePath == "")
+		throw eDocumentEmptyFileNameException();
 
-protected:
-	/**
-	 * Refresh the display select boxes with currently available displays
-	 */
-	void updateDisplayNames();
+	QFileInfo fileInfo(*m_pStrAbsolutFilePath);
 
-private slots:
-	void on_actionOpen_File_triggered();
+	if (!fileInfo.exists())
+		throw eDocumentFileNotExistsException();
 
-private:
-	/**
-	 * Pointer to the Qt-generated UI
-	 */
-	Ui::StartWindow *m_pUi;
+	if (!fileInfo.isReadable())
+		throw eDocumentFileNotReadable();
 
-	/**
-	 * Holds the display names of available displays
-	 */
-	vector<QString> m_displayNames;
+	m_pStrFileName = make_shared<QString>(fileInfo.fileName());
+}
 
-	shared_ptr<IDocumentModel> m_pDocumentModel;
-};
+IDocumentModel::~IDocumentModel() {
+
+}
+
+shared_ptr<QString> IDocumentModel::getAbsoluteFileName() {
+	return m_pStrAbsolutFilePath;
+}
+
+shared_ptr<QString> IDocumentModel::getFileName() {
+	return m_pStrFileName;
+}
 
 } /* namespace qSlides */
-#endif /* MAINWINDOW_H_ */

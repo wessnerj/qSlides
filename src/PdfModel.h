@@ -16,58 +16,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MAINWINDOW_H_
-#define MAINWINDOW_H_
+#ifndef PDFMODEL_H_
+#define PDFMODEL_H_
 
 #include "IDocumentModel.h"
 
-#include <vector>
-using std::vector;
+//#include <memory>
+//using std::shared_ptr;
 
-#include <memory>
-using std::shared_ptr;
-
-#include <QMainWindow>
-#include <QString>
-
-namespace Ui {
-class StartWindow;
-}
+#include "poppler-qt4.h"
 
 namespace qSlides {
 
-/**
- * The StartWindow is used to setup the presentation.
- */
-class StartWindow: public QMainWindow {
-Q_OBJECT
-
+class PdfModel: public qSlides::IDocumentModel {
 public:
-	explicit StartWindow(QWidget *parent = 0);
-	~StartWindow();
-
-protected:
-	/**
-	 * Refresh the display select boxes with currently available displays
-	 */
-	void updateDisplayNames();
-
-private slots:
-	void on_actionOpen_File_triggered();
+	PdfModel(const QString & filePath);
+	virtual ~PdfModel();
 
 private:
-	/**
-	 * Pointer to the Qt-generated UI
-	 */
-	Ui::StartWindow *m_pUi;
-
-	/**
-	 * Holds the display names of available displays
-	 */
-	vector<QString> m_displayNames;
-
-	shared_ptr<IDocumentModel> m_pDocumentModel;
+	Poppler::Document *m_pDocument;
 };
 
 } /* namespace qSlides */
-#endif /* MAINWINDOW_H_ */
+#endif /* PDFMODEL_H_ */
