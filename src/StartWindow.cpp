@@ -90,6 +90,30 @@ void StartWindow::updateDisplayNames() {
 		m_pUi->selectPresentationDisplay->setCurrentIndex(0);
 }
 
+bool StartWindow::validatePreferences() {
+	// Return false if no (valid) document is selected
+	if (nullptr == m_pDocumentModel)
+		return false;
+
+	QDesktopWidget *desktop = QApplication::desktop();
+	const int nScreenCount = desktop->screenCount();
+
+	const int currentControlDisplay =
+			m_pUi->selectControlDisplay->currentIndex();
+	const int currentPresentationDisplay =
+			m_pUi->selectPresentationDisplay->currentIndex();
+
+	// Return only true, if both displays exist and are different
+	return (-1 < currentControlDisplay && -1 < currentPresentationDisplay
+			&& currentControlDisplay < nScreenCount
+			&& currentPresentationDisplay < nScreenCount
+			&& currentControlDisplay != currentPresentationDisplay);
+}
+
+void StartWindow::setStartEnabledStatus() {
+	m_pUi->buttonStartPresentation->setEnabled(validatePreferences());
+}
+
 void StartWindow::on_actionOpen_File_triggered() {
 	// Open FileDialog to get absolute file path
 	const QString oAbsolutFileName = QFileDialog::getOpenFileName(this,
@@ -101,7 +125,7 @@ void StartWindow::on_actionOpen_File_triggered() {
 
 	// try to load the document
 	try {
-		m_pDocumentModel = static_pointer_cast<IDocumentModel>(make_shared<PdfModel>(oAbsolutFileName));
+		m_pDocumentModel = static_pointer_cast<IDocumentModel>(make_shared<PdfModel> (oAbsolutFileName));
 	} catch (eDocumentLoadException e) {
 		// TODO: Show error message
 		m_pDocumentModel = nullptr;
@@ -111,6 +135,23 @@ void StartWindow::on_actionOpen_File_triggered() {
 
 	// show file name
 	m_pUi->labelFilename->setText(*(m_pDocumentModel->getFileName()));
+
+	// Enable start button?
+	setStartEnabledStatus();
+}
+
+void StartWindow::on_selectControlDisplay_currentIndexChanged(int index) {
+	// Enable start button?
+	setStartEnabledStatus();
+}
+
+void StartWindow::on_selectPresentationDisplay_currentIndexChanged(int index) {
+	// Enable start button?
+	setStartEnabledStatus();
+}
+
+void StartWindow::on_buttonStartPresentation_clicked() {
+	qDebug() << "StartWindow::on_buttonStartPresentation_clicked()";
 }
 
 } /* namespace qSlides */

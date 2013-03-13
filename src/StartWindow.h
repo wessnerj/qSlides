@@ -52,8 +52,21 @@ protected:
 	 */
 	void updateDisplayNames();
 
+	/**
+	 * Check if the chosen preferences are valid, return false otherwise
+	 */
+	bool validatePreferences();
+
+	/**
+	 * Enables or disables the start button according to the validation.
+	 */
+	void setStartEnabledStatus();
+
 private slots:
 	void on_actionOpen_File_triggered();
+	void on_selectControlDisplay_currentIndexChanged(int index);
+	void on_selectPresentationDisplay_currentIndexChanged(int index);
+	void on_buttonStartPresentation_clicked();
 
 private:
 	/**

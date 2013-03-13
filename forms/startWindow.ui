@@ -74,7 +74,7 @@
        <bool>false</bool>
       </property>
       <property name="text">
-       <string>Start Presentation</string>
+       <string>Start &amp;Presentation</string>
       </property>
       <property name="checkable">
        <bool>false</bool>
@@ -84,7 +84,7 @@
     <item row="1" column="0">
      <widget class="QPushButton" name="buttonSelectFile">
       <property name="text">
-       <string>Select File</string>
+       <string>&amp;Select File</string>
       </property>
      </widget>
     </item>
@@ -103,7 +103,7 @@
      <x>0</x>
      <y>0</y>
      <width>487</width>
-     <height>23</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
