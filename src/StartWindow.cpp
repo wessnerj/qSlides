@@ -20,8 +20,9 @@
 #include "ui_startWindow.h"
 
 #include "IDocumentModel.h"
-
 #include "PdfModel.h"
+
+#include "PresentationController.h"
 
 #include <memory>
 using std::make_shared;
@@ -36,9 +37,11 @@ using std::static_pointer_cast;
 
 namespace qSlides {
 
-StartWindow::StartWindow(QWidget *parent) :
+StartWindow::StartWindow(PresentationController *pController, QWidget *parent) :
 		QMainWindow(parent), m_pUi(new Ui::StartWindow) {
 	m_pUi->setupUi(this);
+
+	m_pController = pController;
 	m_pDocumentModel = nullptr;
 
 	updateDisplayNames();
@@ -126,6 +129,9 @@ void StartWindow::on_actionOpen_File_triggered() {
 	// try to load the document
 	try {
 		m_pDocumentModel = static_pointer_cast<IDocumentModel>(make_shared<PdfModel> (oAbsolutFileName));
+
+		// Set document via controller
+		m_pController->setDocument(m_pDocumentModel);
 	} catch (eDocumentLoadException e) {
 		// TODO: Show error message
 		m_pDocumentModel = nullptr;
@@ -151,6 +157,17 @@ void StartWindow::on_selectPresentationDisplay_currentIndexChanged(int index) {
 }
 
 void StartWindow::on_buttonStartPresentation_clicked() {
+	// Set control/presentation displays in controller
+	const int currentControlDisplay =
+			m_pUi->selectControlDisplay->currentIndex();
+	const int currentPresentationDisplay =
+			m_pUi->selectPresentationDisplay->currentIndex();
+	m_pController->setControlDisplay(currentControlDisplay);
+	m_pController->setPresentationDisplay(currentPresentationDisplay);
+
+	// Tell the controller to start the presentation
+	m_pController->startPresentation();
+
 	qDebug() << "StartWindow::on_buttonStartPresentation_clicked()";
 }
 

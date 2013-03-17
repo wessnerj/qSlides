@@ -36,6 +36,8 @@ class StartWindow;
 
 namespace qSlides {
 
+class PresentationController;
+
 /**
  * The StartWindow is used to setup the presentation.
  */
@@ -43,7 +45,7 @@ class StartWindow: public QMainWindow {
 Q_OBJECT
 
 public:
-	explicit StartWindow(QWidget *parent = 0);
+	explicit StartWindow(PresentationController *pController, QWidget *parent = 0);
 	~StartWindow();
 
 protected:
@@ -78,6 +80,8 @@ private:
 	 * Holds the display names of available displays
 	 */
 	vector<QString> m_displayNames;
+
+	PresentationController *m_pController;
 
 	shared_ptr<IDocumentModel> m_pDocumentModel;
 };

@@ -27,6 +27,8 @@ class ControlWindow;
 
 namespace qSlides {
 
+class PresentationController;
+
 /**
  * The ControlWindow shows the actual and upcoming slides.
  */
@@ -34,14 +36,18 @@ class ControlWindow: public QMainWindow {
 Q_OBJECT
 
 public:
-	explicit ControlWindow(QWidget *parent = 0);
+	explicit ControlWindow(PresentationController *pController, QWidget *parent = 0);
 	~ControlWindow();
+
+	void moveToDisplay(int nDisplay);
 
 private:
 	/**
 	 * Pointer to the Qt-generated UI
 	 */
 	Ui::ControlWindow *ui;
+
+	PresentationController *m_pController;
 };
 
 } /* namespace qSlides */

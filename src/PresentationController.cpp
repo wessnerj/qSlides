@@ -21,21 +21,49 @@
 #include <QRect>
 #include <QApplication>
 
+#include <memory>
+using std::make_shared;
+
 namespace qSlides {
 
-PresentationController::PresentationController(shared_ptr<IDocumentModel> pDocumentModel, const int nControlDisplay, const int nPresentationDisplay) {
-	m_pDocumentModel = pDocumentModel;
-	m_nControlDisplayNumber = nControlDisplay;
-	m_nPresentationDisplay = nPresentationDisplay;
+PresentationController::PresentationController() {
+	m_pDocumentModel = nullptr;
+	m_nControlDisplayNumber = -1;
+	m_nPresentationDisplay = -1;
 }
 
 PresentationController::~PresentationController() {
 
 }
 
+void PresentationController::start() {
+	m_pStartWindow = make_shared<StartWindow>(this);
+	m_pStartWindow->show();
+
+//	QRect screenres = QApplication::desktop()->screenGeometry(m_nControlDisplayNumber);
+//	widget->move(QPoint(screenres.x(), screenres.y()));
+}
+
 void PresentationController::startPresentation() {
-	QRect screenres = QApplication::desktop()->screenGeometry(m_nControlDisplayNumber);
-	widget->move(QPoint(screenres.x(), screenres.y()));
+	// close start window
+	m_pStartWindow->close();
+
+	// Open control window
+	m_pControlWindow = make_shared<ControlWindow>(this);
+	m_pControlWindow->show();
+	m_pControlWindow->moveToDisplay(m_nControlDisplayNumber);
+}
+
+void PresentationController::setDocument(shared_ptr<IDocumentModel> pDocument) {
+	m_pDocumentModel = pDocument;
+}
+
+void PresentationController::setControlDisplay(int nDisplay) {
+	m_nControlDisplayNumber = nDisplay;
+}
+
+void PresentationController::setPresentationDisplay(int nDisplay) {
+	m_nPresentationDisplay = nDisplay;
 }
 
 } /* namespace qSlides */

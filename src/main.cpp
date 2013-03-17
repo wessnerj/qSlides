@@ -17,8 +17,8 @@
  */
 
 #include <QtGui/QApplication>
-#include "StartWindow.h"
-#include "ControlWindow.h"
+
+#include "PresentationController.h"
 
 using namespace qSlides;
 
@@ -27,8 +27,9 @@ using namespace qSlides;
  */
 int main(int argc, char *argv[]) {
 	QApplication a(argc, argv);
-	StartWindow w;
-	w.show();
+
+	PresentationController c;
+	c.start();
 
 	return a.exec();
 }

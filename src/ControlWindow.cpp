@@ -19,15 +19,36 @@
 #include "ControlWindow.h"
 #include "ui_controlWindow.h"
 
+#include "PresentationController.h"
+
+#include <QRect>
+#include <QDesktopWidget>
+#include <QApplication>
+#include <QDebug>
+#include <QString>
+
 namespace qSlides {
 
-ControlWindow::ControlWindow(QWidget *parent) :
+ControlWindow::ControlWindow(PresentationController *pController, QWidget *parent) :
 		QMainWindow(parent), ui(new Ui::ControlWindow) {
 	ui->setupUi(this);
+
+	m_pController = pController;
 }
 
 ControlWindow::~ControlWindow() {
 	delete ui;
+}
+
+void ControlWindow::moveToDisplay(int nDisplay) {
+	QDesktopWidget *desktop = QApplication::desktop();
+	QRect screenres = desktop->screenGeometry(nDisplay);
+
+	// moves window to the desired screen
+	this->move(screenres.topLeft());
+
+	// show window in fullscreen
+	this->showFullScreen();
 }
 
 } /* namespace qSlides */

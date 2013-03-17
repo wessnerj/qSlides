@@ -21,6 +21,9 @@
 
 #include "IDocumentModel.h"
 
+#include "StartWindow.h"
+#include "ControlWindow.h"
+
 #include <memory>
 using std::shared_ptr;
 
@@ -28,15 +31,23 @@ namespace qSlides {
 
 class PresentationController {
 public:
-	PresentationController(shared_ptr<IDocumentModel> pDocumentModel, const int nControlDisplay, const int nPresentationDisplay);
+	PresentationController();
 	virtual ~PresentationController();
 
+	void start();
 	void startPresentation();
+
+	void setDocument(shared_ptr<IDocumentModel> pDocument);
+	void setControlDisplay(int nDisplay);
+	void setPresentationDisplay(int nPresentationDisplay);
 
 protected:
 	shared_ptr<IDocumentModel> m_pDocumentModel;
 	int m_nControlDisplayNumber;
 	int m_nPresentationDisplay;
+
+	shared_ptr<StartWindow> 	m_pStartWindow;
+	shared_ptr<ControlWindow>	m_pControlWindow;
 };
 
 } /* namespace qSlides */
