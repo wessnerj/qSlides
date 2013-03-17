@@ -28,6 +28,7 @@ SET(project_SOURCES
     src/main.cpp
     src/StartWindow.cpp
     src/ControlWindow.cpp
+    src/PresentationWindow.cpp
     src/IDocumentModel.cpp
     src/PdfModel.cpp
     src/PresentationController.cpp)
@@ -36,6 +37,7 @@ SET(project_SOURCES
 SET(project_HEADERS
     src/StartWindow.h
     src/ControlWindow.h
+    src/PresentationWindow.h
     src/IDocumentModel.h
     src/PdfModel.h
     src/PresentationController.h)
@@ -43,7 +45,8 @@ SET(project_HEADERS
 # Add Qt UI files
 SET(project_FORMS
     forms/startWindow.ui
-    forms/controlWindow.ui)
+    forms/controlWindow.ui
+    forms/presentationWindow.ui)
 
 # Generate qt mocs
 QT4_WRAP_CPP(project_HEADERS_MOC ${project_HEADERS})

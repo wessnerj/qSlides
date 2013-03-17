@@ -16,39 +16,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CONTROLWINDOW_H_
-#define CONTROLWINDOW_H_
-
-#include <QMainWindow>
-
-namespace Ui {
-class ControlWindow;
-}
+#include "PresentationWindow.h"
+#include "ui_presentationWindow.h"
 
 namespace qSlides {
 
-class PresentationController;
+PresentationWindow::PresentationWindow(PresentationController *pController,
+		QWidget *parent) :
+		QMainWindow(parent), m_pUi(new Ui::PresentationWindow) {
+	m_pUi->setupUi(this);
 
-/**
- * The ControlWindow shows the actual and upcoming slides.
- */
-class ControlWindow: public QMainWindow {
-Q_OBJECT
+	m_pController = pController;
+}
 
-public:
-	explicit ControlWindow(PresentationController *pController, QWidget *parent = 0);
-	~ControlWindow();
-
-	void moveToDisplay(int nDisplay);
-
-private:
-	/**
-	 * Pointer to the Qt-generated UI
-	 */
-	Ui::ControlWindow *m_pUi;
-
-	PresentationController *m_pController;
-};
+PresentationWindow::~PresentationWindow() {
+	delete m_pUi;
+}
 
 } /* namespace qSlides */
-#endif /* CONTROLWINDOW_H_ */

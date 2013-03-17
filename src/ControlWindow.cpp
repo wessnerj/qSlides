@@ -30,14 +30,14 @@
 namespace qSlides {
 
 ControlWindow::ControlWindow(PresentationController *pController, QWidget *parent) :
-		QMainWindow(parent), ui(new Ui::ControlWindow) {
-	ui->setupUi(this);
+		QMainWindow(parent), m_pUi(new Ui::ControlWindow) {
+	m_pUi->setupUi(this);
 
 	m_pController = pController;
 }
 
 ControlWindow::~ControlWindow() {
-	delete ui;
+	delete m_pUi;
 }
 
 void ControlWindow::moveToDisplay(int nDisplay) {
