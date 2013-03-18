@@ -24,13 +24,16 @@ using std::shared_ptr;
 
 #include <QString>
 #include <QFileInfo>
+#include <QImage>
 
 namespace qSlides {
 
 class eDocumentLoadException { };
 class eDocumentEmptyFileNameException : public eDocumentLoadException { };
 class eDocumentFileNotExistsException : public eDocumentLoadException { };
-class eDocumentFileNotReadable : public eDocumentLoadException { };
+class eDocumentFileNotReadableException : public eDocumentLoadException { };
+
+class eDocumentPageNotFoundException { };
 
 class IDocumentModel {
 public:
@@ -39,6 +42,8 @@ public:
 
 	shared_ptr<QString> getAbsoluteFileName();
 	shared_ptr<QString> getFileName();
+
+	virtual QImage		renderPage(const int nPageNumber, const int nWidth, const int nHeight) = 0;
 
 protected:
 	shared_ptr<QString> m_pStrAbsolutFilePath;

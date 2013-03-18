@@ -16,32 +16,31 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PRESENTATIONWINDOW_H_
-#define PRESENTATIONWINDOW_H_
-
 #include "SlideWindow.h"
 
-namespace Ui {
-class PresentationWindow;
-}
+#include <QApplication>
+#include <QDesktopWidget>
+#include <QRect>
 
 namespace qSlides {
-class PresentationWindow: public SlideWindow {
-Q_OBJECT
 
-public:
-	explicit PresentationWindow(PresentationController *pController,
-			QWidget *parent = 0);
-	~PresentationWindow();
+SlideWindow::SlideWindow(PresentationController *pController, QWidget *parent) : QMainWindow(parent) {
+	m_pController = pController;
+}
 
-	void on_pageNumberChange(int nNewPageNumber);
+SlideWindow::~SlideWindow() {
+}
 
-private:
-	/**
-	 * Pointer to the Qt-generated UI
-	 */
-	Ui::PresentationWindow *m_pUi;
-};
+void SlideWindow::moveToDisplay(int nDisplay, bool bFullscreen) {
+	QDesktopWidget *desktop = QApplication::desktop();
+	QRect screenres = desktop->screenGeometry(nDisplay);
+
+	// moves window to the desired screen
+	this->move(screenres.topLeft());
+
+	// show window in fullscreen
+	if (bFullscreen)
+		this->showFullScreen();
+}
 
 } /* namespace qSlides */
-#endif /* PRESENTATIONWINDOW_H_ */

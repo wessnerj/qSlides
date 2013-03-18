@@ -19,18 +19,30 @@
 #include "PresentationWindow.h"
 #include "ui_presentationWindow.h"
 
+#include "PresentationController.h"
+
+#include <QImage>
+#include <QPixmap>
+
 namespace qSlides {
 
 PresentationWindow::PresentationWindow(PresentationController *pController,
 		QWidget *parent) :
-		QMainWindow(parent), m_pUi(new Ui::PresentationWindow) {
+		SlideWindow(pController, parent), m_pUi(new Ui::PresentationWindow) {
 	m_pUi->setupUi(this);
-
-	m_pController = pController;
 }
 
 PresentationWindow::~PresentationWindow() {
 	delete m_pUi;
+}
+
+void PresentationWindow::on_pageNumberChange(int nNewPageNumber) {
+	const QRect dims = this->geometry();
+
+	shared_ptr<IDocumentModel> pDocument = m_pController->getDocument();
+	QImage renderedPage = pDocument->renderPage(nNewPageNumber, dims.width(), dims.height());
+
+	m_pUi->labelSlide->setPixmap(QPixmap::fromImage(renderedPage));
 }
 
 } /* namespace qSlides */

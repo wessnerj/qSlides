@@ -33,6 +33,8 @@ public:
 	PdfModel(const QString & filePath);
 	virtual ~PdfModel();
 
+	QImage	renderPage(const int nPageNumber, const int nWidth, const int nHeight);
+
 private:
 	Poppler::Document *m_pDocument;
 };

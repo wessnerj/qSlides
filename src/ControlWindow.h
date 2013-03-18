@@ -19,35 +19,31 @@
 #ifndef CONTROLWINDOW_H_
 #define CONTROLWINDOW_H_
 
-#include <QMainWindow>
+#include "SlideWindow.h"
 
 namespace Ui {
 class ControlWindow;
 }
 
 namespace qSlides {
-
-class PresentationController;
-
 /**
  * The ControlWindow shows the actual and upcoming slides.
  */
-class ControlWindow: public QMainWindow {
+class ControlWindow: public SlideWindow {
 Q_OBJECT
 
 public:
-	explicit ControlWindow(PresentationController *pController, QWidget *parent = 0);
+	explicit ControlWindow(PresentationController *pController,
+			QWidget *parent = 0);
 	~ControlWindow();
 
-	void moveToDisplay(int nDisplay);
+	void on_pageNumberChange(int nNewPageNumber);
 
 private:
 	/**
 	 * Pointer to the Qt-generated UI
 	 */
 	Ui::ControlWindow *m_pUi;
-
-	PresentationController *m_pController;
 };
 
 } /* namespace qSlides */

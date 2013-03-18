@@ -41,7 +41,7 @@ IDocumentModel::IDocumentModel(const QString & filePath) {
 		throw eDocumentFileNotExistsException();
 
 	if (!fileInfo.isReadable())
-		throw eDocumentFileNotReadable();
+		throw eDocumentFileNotReadableException();
 
 	m_pStrFileName = make_shared<QString>(fileInfo.fileName());
 }

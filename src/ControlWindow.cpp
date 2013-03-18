@@ -21,34 +21,25 @@
 
 #include "PresentationController.h"
 
-#include <QRect>
-#include <QDesktopWidget>
-#include <QApplication>
-#include <QDebug>
-#include <QString>
+#include <QImage>
+#include <QPixmap>
 
 namespace qSlides {
 
 ControlWindow::ControlWindow(PresentationController *pController, QWidget *parent) :
-		QMainWindow(parent), m_pUi(new Ui::ControlWindow) {
+		SlideWindow(pController, parent), m_pUi(new Ui::ControlWindow) {
 	m_pUi->setupUi(this);
-
-	m_pController = pController;
 }
 
 ControlWindow::~ControlWindow() {
 	delete m_pUi;
 }
 
-void ControlWindow::moveToDisplay(int nDisplay) {
-	QDesktopWidget *desktop = QApplication::desktop();
-	QRect screenres = desktop->screenGeometry(nDisplay);
+void ControlWindow::on_pageNumberChange(int nNewPageNumber) {
+//	shared_ptr<IDocumentModel> pDocument = m_pController->getDocument();
+//	QImage renderedPage = pDocument->renderPage(nNewPageNumber);
 
-	// moves window to the desired screen
-	this->move(screenres.topLeft());
-
-	// show window in fullscreen
-	this->showFullScreen();
+//	 m_pUi->labelSlide->setPixmap(QPixmap::fromImage(renderedPage));
 }
 
 } /* namespace qSlides */

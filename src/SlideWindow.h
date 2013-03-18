@@ -16,32 +16,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PRESENTATIONWINDOW_H_
-#define PRESENTATIONWINDOW_H_
+#ifndef SLIDEWINDOW_H_
+#define SLIDEWINDOW_H_
 
-#include "SlideWindow.h"
-
-namespace Ui {
-class PresentationWindow;
-}
+#include <QMainWindow>
 
 namespace qSlides {
-class PresentationWindow: public SlideWindow {
+
+class PresentationController;
+
+class SlideWindow : public QMainWindow {
 Q_OBJECT
 
 public:
-	explicit PresentationWindow(PresentationController *pController,
-			QWidget *parent = 0);
-	~PresentationWindow();
+	SlideWindow(PresentationController *pController, QWidget *parent = 0);
+	~SlideWindow();
 
-	void on_pageNumberChange(int nNewPageNumber);
+	void moveToDisplay(int nDisplay, bool bFullscreen = true);
 
-private:
-	/**
-	 * Pointer to the Qt-generated UI
-	 */
-	Ui::PresentationWindow *m_pUi;
+	virtual void on_pageNumberChange(int nNewPageNumber) = 0;
+
+protected:
+	PresentationController *m_pController;
 };
 
 } /* namespace qSlides */
-#endif /* PRESENTATIONWINDOW_H_ */
+#endif /* SLIDEWINDOW_H_ */

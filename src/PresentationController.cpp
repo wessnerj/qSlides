@@ -51,7 +51,14 @@ void PresentationController::startPresentation() {
 	// Open control window
 	m_pControlWindow = make_shared<ControlWindow>(this);
 	m_pControlWindow->show();
-	m_pControlWindow->moveToDisplay(m_nControlDisplayNumber);
+//	 m_pControlWindow->moveToDisplay(m_nControlDisplayNumber);
+
+	// Open presentation window
+	m_pPresentationWindow = make_shared<PresentationWindow>(this);
+	m_pPresentationWindow->show();
+	m_pPresentationWindow->moveToDisplay(m_nPresentationDisplay);
+
+	m_pPresentationWindow->on_pageNumberChange(0);
 }
 
 void PresentationController::setDocument(shared_ptr<IDocumentModel> pDocument) {
@@ -64,6 +71,10 @@ void PresentationController::setControlDisplay(int nDisplay) {
 
 void PresentationController::setPresentationDisplay(int nDisplay) {
 	m_nPresentationDisplay = nDisplay;
+}
+
+shared_ptr<IDocumentModel> PresentationController::getDocument() {
+	return m_pDocumentModel;
 }
 
 } /* namespace qSlides */

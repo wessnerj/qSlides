@@ -27,6 +27,7 @@ SET(project_LINK_LIBS ${project_LINK_LIBS} ${POPPLER_QT4_LIBRARIES})
 SET(project_SOURCES
     src/main.cpp
     src/StartWindow.cpp
+    src/SlideWindow.cpp
     src/ControlWindow.cpp
     src/PresentationWindow.cpp
     src/IDocumentModel.cpp
@@ -36,6 +37,7 @@ SET(project_SOURCES
 # Add header files
 SET(project_HEADERS
     src/StartWindow.h
+    src/SlideWindow.h
     src/ControlWindow.h
     src/PresentationWindow.h
     src/IDocumentModel.h
