@@ -56,8 +56,9 @@ void PresentationController::startPresentation() {
 	// Open presentation window
 	m_pPresentationWindow = make_shared<PresentationWindow>(this);
 	m_pPresentationWindow->show();
-	m_pPresentationWindow->moveToDisplay(m_nPresentationDisplay);
+//	m_pPresentationWindow->moveToDisplay(m_nPresentationDisplay);
 
+	m_pControlWindow->on_pageNumberChange(0);
 	m_pPresentationWindow->on_pageNumberChange(0);
 }
 

@@ -36,6 +36,16 @@ ControlWindow::~ControlWindow() {
 }
 
 void ControlWindow::on_pageNumberChange(int nNewPageNumber) {
+	shared_ptr<IDocumentModel> pDocument = m_pController->getDocument();
+
+	const QRect mainDims = m_pUi->labelSlideMain->geometry();
+	m_pUi->labelSlideMain->setPixmap(QPixmap::fromImage(pDocument->renderPage(nNewPageNumber, mainDims.width(), mainDims.height())));
+
+	// TODO: Check if page nNewPageNumber+2 is available
+	const QRect sideDims = m_pUi->labelSlideP1->geometry();
+	m_pUi->labelSlideP1->setPixmap(QPixmap::fromImage(pDocument->renderPage(nNewPageNumber+1, sideDims.width(), sideDims.height())));
+	m_pUi->labelSlideP2->setPixmap(QPixmap::fromImage(pDocument->renderPage(nNewPageNumber+2, sideDims.width(), sideDims.height())));
+
 //	shared_ptr<IDocumentModel> pDocument = m_pController->getDocument();
 //	QImage renderedPage = pDocument->renderPage(nNewPageNumber);
 
