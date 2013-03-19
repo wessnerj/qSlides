@@ -30,18 +30,44 @@ using std::shared_ptr;
 
 namespace qSlides {
 
+/**
+ * Controller for the presentation. Manages the Start-, Control- and PresentationWindow
+ */
 class PresentationController {
 public:
 	PresentationController();
 	virtual ~PresentationController();
 
+	/**
+	 * Starts with the StartWindow
+	 */
 	void start();
+	/**
+	 * Starts the presentation if Control- and PresentationWindow
+	 */
 	void startPresentation();
 
+	/**
+	 * Setter for document model.
+	 *
+	 * @param pDocument
+	 */
 	void setDocument(shared_ptr<IDocumentModel> pDocument);
+	/**
+	 * Setter for control display
+	 * @param nDisplay	number of display, where the ControlWindow should be shown.
+	 */
 	void setControlDisplay(int nDisplay);
+	/**
+	 * Setter for presentation display
+	 * @param nPresentationDisplay	number of display, where the PresentationWindow should be shown.
+	 */
 	void setPresentationDisplay(int nPresentationDisplay);
 
+	/**
+	 * Getter for document model
+	 * @return Pointer to document model
+	 */
 	shared_ptr<IDocumentModel> getDocument();
 
 protected:

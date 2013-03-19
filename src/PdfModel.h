@@ -21,13 +21,13 @@
 
 #include "IDocumentModel.h"
 
-//#include <memory>
-//using std::shared_ptr;
-
 #include "poppler-qt4.h"
 
 namespace qSlides {
 
+/**
+ * Implementation of the IDocumentModel interface for PDF files, using the Poppler library.
+ */
 class PdfModel: public qSlides::IDocumentModel {
 public:
 	PdfModel(const QString & filePath);
@@ -36,6 +36,9 @@ public:
 	QImage	renderPage(const int nPageNumber, const int nWidth, const int nHeight);
 
 private:
+	/**
+	 * Pointer to the Poppler document object used for rendering/accessing the document file.
+	 */
 	Poppler::Document *m_pDocument;
 };
 

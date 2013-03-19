@@ -28,25 +28,66 @@ using std::shared_ptr;
 
 namespace qSlides {
 
+/**
+ * General exception if the file could not be load
+ */
 class eDocumentLoadException { };
+/**
+ * Exception if the filename was empty
+ */
 class eDocumentEmptyFileNameException : public eDocumentLoadException { };
+/**
+ * Exception if filename leads to non-existing file
+ */
 class eDocumentFileNotExistsException : public eDocumentLoadException { };
+/**
+ * Exception if file was not readable
+ */
 class eDocumentFileNotReadableException : public eDocumentLoadException { };
 
+/**
+ * Exception for calling a invalid page number
+ */
 class eDocumentPageNotFoundException { };
 
+/**
+ * Interface for document model
+ */
 class IDocumentModel {
 public:
-	IDocumentModel(const QString & filePath);
+	IDocumentModel(const QString &filePath);
 	virtual ~IDocumentModel();
 
+	/**
+	 * Getter for absolute file path
+	 * @return
+	 */
 	shared_ptr<QString> getAbsoluteFileName();
+	/**
+	 * Getter for filename
+	 * @return
+	 */
 	shared_ptr<QString> getFileName();
 
+	/**
+	 * Renders the given page to QImage. The page is scaled to fit the height and width argument without distorting.
+	 *
+	 * @param nPageNumber	number of page to render
+	 * @param nWidth		width of the resulting QImage
+	 * @param nHeight		height of the resulting QImage
+	 * @return				QImage with the desired page
+	 */
 	virtual QImage		renderPage(const int nPageNumber, const int nWidth, const int nHeight) = 0;
 
 protected:
+	/**
+	 * Absolute filepath of the document
+	 */
 	shared_ptr<QString> m_pStrAbsolutFilePath;
+
+	/**
+	 * Filename of document
+	 */
 	shared_ptr<QString> m_pStrFileName;
 };
 
