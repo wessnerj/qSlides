@@ -23,6 +23,7 @@
 
 #include <QImage>
 #include <QPixmap>
+#include <QDebug>
 
 namespace qSlides {
 
@@ -36,20 +37,38 @@ ControlWindow::~ControlWindow() {
 }
 
 void ControlWindow::on_pageNumberChange(int nNewPageNumber) {
-	shared_ptr<IDocumentModel> pDocument = m_pController->getDocument();
+	SlideWindow::on_pageNumberChange(nNewPageNumber);
 
+	// Render main slide
 	const QRect mainDims = m_pUi->labelSlideMain->geometry();
-	m_pUi->labelSlideMain->setPixmap(QPixmap::fromImage(pDocument->renderPage(nNewPageNumber, mainDims.width(), mainDims.height())));
+	m_pUi->labelSlideMain->setPixmap(QPixmap::fromImage(m_pDocumentModel->renderPage(nNewPageNumber, mainDims.width(), mainDims.height())));
 
-	// TODO: Check if page nNewPageNumber+2 is available
-	const QRect sideDims = m_pUi->labelSlideP1->geometry();
-	m_pUi->labelSlideP1->setPixmap(QPixmap::fromImage(pDocument->renderPage(nNewPageNumber+1, sideDims.width(), sideDims.height())));
-	m_pUi->labelSlideP2->setPixmap(QPixmap::fromImage(pDocument->renderPage(nNewPageNumber+2, sideDims.width(), sideDims.height())));
+	// Get number of total slides
+	const int nNumberOfPages = m_pDocumentModel->getNumberOfPages();
 
-//	shared_ptr<IDocumentModel> pDocument = m_pController->getDocument();
-//	QImage renderedPage = pDocument->renderPage(nNewPageNumber);
+	// Show next slide
+	if (m_nCurrentPageNumber+1 < nNumberOfPages) {
+		const QRect sideDims = m_pUi->labelSlideP1->geometry();
+		m_pUi->labelSlideP1->setPixmap(QPixmap::fromImage(m_pDocumentModel->renderPage(m_nCurrentPageNumber+1, sideDims.width(), sideDims.height())));
+	} else {
+		m_pUi->labelSlideP1->clear();
+	}
 
-//	 m_pUi->labelSlide->setPixmap(QPixmap::fromImage(renderedPage));
+	// Show slide after next slide
+	if (m_nCurrentPageNumber+2 < nNumberOfPages) {
+		const QRect sideDims = m_pUi->labelSlideP1->geometry();
+		m_pUi->labelSlideP2->setPixmap(QPixmap::fromImage(m_pDocumentModel->renderPage(m_nCurrentPageNumber+2, sideDims.width(), sideDims.height())));
+	} else {
+		m_pUi->labelSlideP2->clear();
+	}
+}
+
+void ControlWindow::on_actionPrev_triggered() {
+	m_pController->showPrevSlide();
+}
+
+void ControlWindow::on_actionNext_triggered() {
+	m_pController->showNextSlide();
 }
 
 } /* namespace qSlides */

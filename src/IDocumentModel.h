@@ -79,6 +79,13 @@ public:
 	 */
 	virtual QImage		renderPage(const int nPageNumber, const int nWidth, const int nHeight) = 0;
 
+	/**
+	 * Getter for number of pages.
+	 *
+	 * @return
+	 */
+	virtual int			getNumberOfPages() = 0;
+
 protected:
 	/**
 	 * Absolute filepath of the document

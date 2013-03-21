@@ -37,11 +37,10 @@ PresentationWindow::~PresentationWindow() {
 }
 
 void PresentationWindow::on_pageNumberChange(int nNewPageNumber) {
+	SlideWindow::on_pageNumberChange(nNewPageNumber);
+
 	const QRect dims = this->geometry();
-
-	shared_ptr<IDocumentModel> pDocument = m_pController->getDocument();
-	QImage renderedPage = pDocument->renderPage(nNewPageNumber, dims.width(), dims.height());
-
+	QImage renderedPage = m_pDocumentModel->renderPage(m_nCurrentPageNumber, dims.width(), dims.height());
 	m_pUi->labelSlide->setPixmap(QPixmap::fromImage(renderedPage));
 }
 

@@ -34,6 +34,7 @@ public:
 	virtual ~PdfModel();
 
 	QImage	renderPage(const int nPageNumber, const int nWidth, const int nHeight);
+	int		getNumberOfPages();
 
 private:
 	/**

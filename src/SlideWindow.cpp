@@ -17,6 +17,7 @@
  */
 
 #include "SlideWindow.h"
+#include "PresentationController.h"
 
 #include <QApplication>
 #include <QDesktopWidget>
@@ -26,6 +27,7 @@ namespace qSlides {
 
 SlideWindow::SlideWindow(PresentationController *pController, QWidget *parent) : QMainWindow(parent) {
 	m_pController = pController;
+	m_pDocumentModel = m_pController->getDocument();
 }
 
 SlideWindow::~SlideWindow() {
@@ -41,6 +43,17 @@ void SlideWindow::moveToDisplay(int nDisplay, bool bFullscreen) {
 	// show window in fullscreen
 	if (bFullscreen)
 		this->showFullScreen();
+}
+
+void SlideWindow::on_pageNumberChange(int nNewPageNumber) {
+	m_nCurrentPageNumber = nNewPageNumber;
+}
+
+void SlideWindow::resizeEvent(QResizeEvent *resizeEvent) {
+	QMainWindow::resizeEvent(resizeEvent);
+
+	// re-render slides
+	on_pageNumberChange(m_nCurrentPageNumber);
 }
 
 } /* namespace qSlides */

@@ -39,6 +39,16 @@ public:
 
 	void on_pageNumberChange(int nNewPageNumber);
 
+private slots:
+	/**
+	 * This method is called if the previous slide action is triggered.
+	 */
+	void on_actionPrev_triggered();
+	/**
+	 * This method is called if the next slide action is triggered.
+	 */
+	void on_actionNext_triggered();
+
 private:
 	/**
 	 * Pointer to the Qt-generated UI

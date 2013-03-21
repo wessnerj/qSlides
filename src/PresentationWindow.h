@@ -26,6 +26,9 @@ class PresentationWindow;
 }
 
 namespace qSlides {
+/**
+ * The PresentationWindow only shows the current slide.
+ */
 class PresentationWindow: public SlideWindow {
 Q_OBJECT
 

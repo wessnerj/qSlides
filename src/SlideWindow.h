@@ -19,7 +19,12 @@
 #ifndef SLIDEWINDOW_H_
 #define SLIDEWINDOW_H_
 
+#include "IDocumentModel.h"
+
 #include <QMainWindow>
+
+#include <memory>
+using std::shared_ptr;
 
 namespace qSlides {
 
@@ -29,15 +34,52 @@ class SlideWindow : public QMainWindow {
 Q_OBJECT
 
 public:
+	/**
+	 * Default constructor, sets member variables and calls parent constructor.
+	 *
+	 * @param pController	PresentationController, which controls this window
+	 * @param parent		Qt parent widget
+	 */
 	SlideWindow(PresentationController *pController, QWidget *parent = 0);
 	~SlideWindow();
 
+	/**
+	 * Moves the window to given display and toggles to fullscreen.
+	 *
+	 * @param nDisplay		Display number to which the window should be moved
+	 * @param bFullscreen	Whether or not the window should switch to fullscreen
+	 */
 	void moveToDisplay(int nDisplay, bool bFullscreen = true);
 
-	virtual void on_pageNumberChange(int nNewPageNumber) = 0;
+	/**
+	 * This method gets called by the PresentationController, when the slide changes.
+	 *
+	 * @param nNewPageNumber	Page number of the current main slide.
+	 */
+	virtual void on_pageNumberChange(int nNewPageNumber);
+
+	/**
+	 * Override resizeEvent to get notified if window is resized.
+	 *
+	 * @param resizeEvent
+	 */
+	void resizeEvent(QResizeEvent *resizeEvent);
 
 protected:
+	/**
+	 * Access to the PresentationController
+	 */
 	PresentationController *m_pController;
+
+	/**
+	 * Access to the DocumentModel
+	 */
+	shared_ptr<IDocumentModel> m_pDocumentModel;
+
+	/**
+	 * Page number of the currently shown slide.
+	 */
+	int m_nCurrentPageNumber;
 };
 
 } /* namespace qSlides */

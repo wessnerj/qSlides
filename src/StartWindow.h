@@ -45,6 +45,12 @@ class StartWindow: public QMainWindow {
 Q_OBJECT
 
 public:
+	/**
+	 * Default constructor, sets member variables and calls parent constructor.
+	 *
+	 * @param pController	PresentationController, which controls this window
+	 * @param parent		Qt parent widget
+	 */
 	explicit StartWindow(PresentationController *pController, QWidget *parent = 0);
 	~StartWindow();
 
@@ -81,8 +87,14 @@ private:
 	 */
 	vector<QString> m_displayNames;
 
+	/**
+	 * Access to the PresentationController
+	 */
 	PresentationController *m_pController;
 
+	/**
+	 * Access to the DocumentModel
+	 */
 	shared_ptr<IDocumentModel> m_pDocumentModel;
 };
 

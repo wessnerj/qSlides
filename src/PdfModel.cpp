@@ -18,7 +18,6 @@
 
 #include "PdfModel.h"
 
-#include <QDebug>
 #include <QSize>
 
 #include <memory>
@@ -66,14 +65,15 @@ QImage PdfModel::renderPage(const int nPageNumber, const int nWidth, const int n
 	}
 
 	// Calculate the x/y-resolutions for rendering
-	const int xres = (nImageWidth * 72) / nPageWidth;
-	const int yres = (nImageHeight * 72) / nPageHeight;
-
-	qDebug() << "page> Width: " << QString::number(pageSize.width()) << " height: " << QString::number(pageSize.height());
+	const int xres = 1 + (nImageWidth * 72) / nPageWidth;
+	const int yres = 1 + (nImageHeight * 72) / nPageHeight;
 
 	QImage renderedImage = pPage->renderToImage(xres, yres, 0, 0, nImageWidth, nImageHeight);
-
 	return renderedImage;
+}
+
+int	PdfModel::getNumberOfPages() {
+	return m_pDocument->numPages();
 }
 
 } /* namespace qSlides */

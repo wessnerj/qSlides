@@ -65,18 +65,57 @@ public:
 	void setPresentationDisplay(int nPresentationDisplay);
 
 	/**
+	 * Displays the next slide.
+	 */
+	void showNextSlide();
+	/**
+	 * Displays the previous slide.
+	 */
+	void showPrevSlide();
+	/**
+	 * Displays slide with given page number.
+	 *
+	 * @param nPageNumber	page number of slide to be shown
+	 */
+	void showSlide(int nPageNumber);
+
+	/**
 	 * Getter for document model
 	 * @return Pointer to document model
 	 */
 	shared_ptr<IDocumentModel> getDocument();
 
 protected:
+	/**
+	 * PageNumber of current slide
+	 */
+	int m_nCurrentPageNumber;
+
+	/**
+	 * Access to the DocumentModel
+	 */
 	shared_ptr<IDocumentModel> m_pDocumentModel;
+
+	/**
+	 * DisplayNumber of control window
+	 */
 	int m_nControlDisplayNumber;
+	/**
+	 * DisplayNumber of presentation window
+	 */
 	int m_nPresentationDisplay;
 
+	/**
+	 * Access to StartWindow
+	 */
 	shared_ptr<StartWindow> 		m_pStartWindow;
+	/**
+	 * Access to ControlWindow
+	 */
 	shared_ptr<ControlWindow>		m_pControlWindow;
+	/**
+	 * Access to PresentationWindow
+	 */
 	shared_ptr<PresentationWindow>	m_pPresentationWindow;
 };
 

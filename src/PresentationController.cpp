@@ -27,6 +27,7 @@ using std::make_shared;
 namespace qSlides {
 
 PresentationController::PresentationController() {
+	m_nCurrentPageNumber = -1;
 	m_pDocumentModel = nullptr;
 	m_nControlDisplayNumber = -1;
 	m_nPresentationDisplay = -1;
@@ -58,8 +59,7 @@ void PresentationController::startPresentation() {
 	m_pPresentationWindow->show();
 //	m_pPresentationWindow->moveToDisplay(m_nPresentationDisplay);
 
-	m_pControlWindow->on_pageNumberChange(0);
-	m_pPresentationWindow->on_pageNumberChange(0);
+	showSlide(0);
 }
 
 void PresentationController::setDocument(shared_ptr<IDocumentModel> pDocument) {
@@ -72,6 +72,24 @@ void PresentationController::setControlDisplay(int nDisplay) {
 
 void PresentationController::setPresentationDisplay(int nDisplay) {
 	m_nPresentationDisplay = nDisplay;
+}
+
+void PresentationController::showNextSlide() {
+	showSlide(m_nCurrentPageNumber+1);
+}
+
+void PresentationController::showPrevSlide() {
+	showSlide(m_nCurrentPageNumber-1);
+}
+
+void PresentationController::showSlide(int nPageNumber) {
+	if (nPageNumber < 0 || nPageNumber >= m_pDocumentModel->getNumberOfPages())
+		return;
+
+	m_nCurrentPageNumber = nPageNumber;
+
+	m_pControlWindow->on_pageNumberChange(m_nCurrentPageNumber);
+	m_pPresentationWindow->on_pageNumberChange(m_nCurrentPageNumber);
 }
 
 shared_ptr<IDocumentModel> PresentationController::getDocument() {

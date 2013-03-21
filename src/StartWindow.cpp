@@ -33,7 +33,6 @@ using std::static_pointer_cast;
 #include <QFileDialog>
 #include <QFileInfo>
 #include <QDesktopWidget>
-#include <QtDebug>
 
 namespace qSlides {
 
@@ -167,8 +166,6 @@ void StartWindow::on_buttonStartPresentation_clicked() {
 
 	// Tell the controller to start the presentation
 	m_pController->startPresentation();
-
-	qDebug() << "StartWindow::on_buttonStartPresentation_clicked()";
 }
 
 } /* namespace qSlides */
