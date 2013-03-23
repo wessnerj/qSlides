@@ -80,6 +80,11 @@ public:
 	void showSlide(int nPageNumber);
 
 	/**
+	 * Closes all windows and exits the application.
+	 */
+	void exit();
+
+	/**
 	 * Getter for document model
 	 * @return Pointer to document model
 	 */

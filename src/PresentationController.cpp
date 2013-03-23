@@ -92,6 +92,17 @@ void PresentationController::showSlide(int nPageNumber) {
 	m_pPresentationWindow->on_pageNumberChange(m_nCurrentPageNumber);
 }
 
+void PresentationController::exit() {
+	if (nullptr != m_pStartWindow)
+		m_pStartWindow->close();
+
+	if (nullptr != m_pControlWindow)
+		m_pControlWindow->close();
+
+	if (nullptr != m_pPresentationWindow)
+		m_pPresentationWindow->close();
+}
+
 shared_ptr<IDocumentModel> PresentationController::getDocument() {
 	return m_pDocumentModel;
 }

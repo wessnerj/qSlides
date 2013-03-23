@@ -183,6 +183,23 @@
    <addaction name="actionPrev"/>
    <addaction name="actionNext"/>
   </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>833</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menu_File">
+    <property name="title">
+     <string>&amp;File</string>
+    </property>
+    <addaction name="actionE_xit"/>
+   </widget>
+   <addaction name="menu_File"/>
+  </widget>
   <action name="actionPrev">
    <property name="text">
     <string>Prev</string>
@@ -193,7 +210,29 @@
     <string>Next</string>
    </property>
   </action>
+  <action name="actionE_xit">
+   <property name="text">
+    <string>E&amp;xit</string>
+   </property>
+  </action>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>actionE_xit</sender>
+   <signal>activated()</signal>
+   <receiver>ControlWindow</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>416</x>
+     <y>286</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

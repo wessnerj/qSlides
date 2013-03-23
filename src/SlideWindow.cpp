@@ -22,6 +22,7 @@
 #include <QApplication>
 #include <QDesktopWidget>
 #include <QRect>
+#include <QDebug>
 
 namespace qSlides {
 
@@ -54,6 +55,16 @@ void SlideWindow::resizeEvent(QResizeEvent *resizeEvent) {
 
 	// re-render slides
 	on_pageNumberChange(m_nCurrentPageNumber);
+}
+
+void SlideWindow::closeEvent(QCloseEvent *closeEvent) {
+	if (m_bIsClosing) {
+		QMainWindow::closeEvent(closeEvent);
+		return;
+	}
+
+	m_bIsClosing = true;
+	m_pController->exit();
 }
 
 } /* namespace qSlides */

@@ -67,6 +67,14 @@ public:
 
 protected:
 	/**
+	 * Override close event to trigger closing of all windows through the PresentationController.
+	 *
+	 * @param closeEvent
+	 */
+	void closeEvent(QCloseEvent *closeEvent);
+
+protected:
+	/**
 	 * Access to the PresentationController
 	 */
 	PresentationController *m_pController;
@@ -80,6 +88,12 @@ protected:
 	 * Page number of the currently shown slide.
 	 */
 	int m_nCurrentPageNumber;
+
+private:
+	/**
+	 * This attribute determines if window closing is already in progress
+	 */
+	bool m_bIsClosing = false;
 };
 
 } /* namespace qSlides */
