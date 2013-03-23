@@ -72,6 +72,7 @@ protected:
 	 * @param closeEvent
 	 */
 	void closeEvent(QCloseEvent *closeEvent);
+	void keyPressEvent(QKeyEvent *keyEvent);
 
 protected:
 	/**

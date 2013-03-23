@@ -22,6 +22,9 @@
 #include <QApplication>
 #include <QDesktopWidget>
 #include <QRect>
+#include <QKeyEvent>
+#include <Qt>
+using Qt::Key;
 #include <QDebug>
 
 namespace qSlides {
@@ -65,6 +68,31 @@ void SlideWindow::closeEvent(QCloseEvent *closeEvent) {
 
 	m_bIsClosing = true;
 	m_pController->exit();
+}
+
+void SlideWindow::keyPressEvent(QKeyEvent *keyEvent) {
+	switch (keyEvent->key()) {
+	case Key::Key_Tab:
+	case Key::Key_Return:
+	case Key::Key_Enter:
+	case Key::Key_Right:
+	case Key::Key_Down:
+	case Key::Key_PageDown:
+	case Key::Key_Space:
+		// Show next slide
+		m_pController->showNextSlide();
+		break;
+	case Key::Key_Backspace:
+	case Key::Key_Left:
+	case Key::Key_Up:
+	case Key::Key_PageUp:
+		// Show previous slide
+		m_pController->showPrevSlide();
+		break;
+	default:
+		// do nothing
+		break;
+	}
 }
 
 } /* namespace qSlides */
