@@ -46,6 +46,9 @@ void ControlWindow::on_pageNumberChange(int nNewPageNumber) {
 	// Get number of total slides
 	const int nNumberOfPages = m_pDocumentModel->getNumberOfPages();
 
+	// Update actual slide number
+	m_pUi->labelSlideStatus->setText(tr("Slide %1 of %2").arg(m_nCurrentPageNumber+1).arg(nNumberOfPages));
+
 	// Show next slide
 	if (m_nCurrentPageNumber+1 < nNumberOfPages) {
 		const QRect sideDims = m_pUi->labelSlideP1->geometry();
